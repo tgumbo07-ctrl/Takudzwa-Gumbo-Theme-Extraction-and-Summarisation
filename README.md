@@ -1,71 +1,65 @@
-# Takudzwa-Gumbo-Theme-Extraction-and-Summarisation
-Deep Learning
-Automated Analysis Pipeline: Generative AI in Marketing
+Takudzwa-Gumbo-Theme-Extraction-and-Summarisation
 
-**Project Overview**
+Domain: Deep Learning | Automated Analysis Pipeline: Generative AI in Marketing
 
-This project processes a corpus of 67 academic documents (1,093 pages) regarding the impact of ChatGPT and Generative AI on the marketing industry.
+Project Overview
 
-Instead of manual review, I built a Python-based pipeline to:
+This project processes a corpus of 67 academic PDFs (~1,093 pages) examining the impact of ChatGPT and Generative AI on marketing.
 
-Merge disparate PDF files into a single searchable artifact.
+Instead of manually reviewing each document, this Python-based pipeline automatically:
 
-Extract and clean text for data mining.
+Merges multiple PDFs into a single searchable file.
 
-Analyze frequency distributions to identify key research themes.
+Extracts and cleans text for data mining.
 
-Generate a formatted executive summary report.
+Performs neural topic modeling using BERTopic.
 
-**The Workflow (Methodology)**
+Generates a formatted Word report summarizing themes and key findings.
 
+Workflow (Methodology)
 Phase 1: Ingestion & Merging
 
-Script: 1_combine_pdfs_v2.py
+Script: 01_extraction.py
+Logic:
 
-Logic: Iterates through the directory, sorts files chronologically, and uses pypdf to merge them.
+Iterates through a folder of PDFs, sorts them numerically by filename, and merges them using pypdf.
 
-Feature: Generates a dynamic Table of Contents and Interactive Bookmarks for navigation.
+Produces a single merged PDF for analysis.
 
-Phase 2: Frequency Analysis
+Output: merged_document_for_analysis.pdf
 
-Script: 2_analyze_text.py
+Phase 2: Neural Theme Extraction & Analysis
 
-Logic: Extracts raw text from the combined PDF, filters out "stop words" (common English words), and performs a frequency count on the remaining corpus.
+Script: 02_analysis.py
+Logic:
 
-Key Insight: The analysis revealed "ChatGPT" (4,056) and "Ethics/Human" (1,800+) as dominant statistical themes.
+Loads the merged PDF text.
 
-Phase 3: Automated Reporting
+Tokenizes sentences using NLTK.
 
-Script: 3_generate_report.py
+Uses BERTopic with all-MiniLM-L6-v2 embeddings to extract semantic topics.
 
-Logic: Takes the qualitative and quantitative findings and uses python-docx to programmatically generate a formatted Word Document.
+Generates an extractive summary by selecting representative sentences from top topics.
 
-**Key Findings Summary**
+Output: analysis_data_step2.pkl (contains topics, executive summary, and metadata)
 
-Dataset: ~803,500 words across 67 files.
+Phase 3: Automated Report Generation
 
-Top Keyword: "2023" (Indicates high recency/cutting-edge research).
+Script: 03_generate_report.py
+Logic:
 
-Core Conclusion: Marketing is shifting to a "Human-in-the-Loop" model where AI handles content generation, but humans handle strategy and ethical verification.
+Loads Step 2 analysis results.
 
-**How to Run This Code**
+Programmatically generates a structured Word document using python-docx.
 
-Clone the repository.
+Includes sections: Executive Summary, Quantitative/Thematic Evidence, Detailed Theme Breakdown, and Methodology Notes.
 
-Install dependencies:
+Output: Deep_Learning_Analysis_Report.docx
 
-pip install -r requirements.txt
+Key Findings Summary
 
+Dataset: ~803,500 words across 67 PDFs.
 
-Place your PDF files in the root directory.
+Top Keywords: "2023" (highly recent research), "ChatGPT", "Ethics/Human".
 
-Run the scripts in order:
-
-python 1_combine_pdfs_v2.py
-python 2_analyze_text.py
-python 3_generate_report.py
-
-
-**Output**
-
-The final analysis is available in this repository as Assignment_Summary_Report.docx.
+Core Conclusion: Marketing is evolving toward a Human-in-the-Loop approach, where AI handles content generation and humans oversee strategy and ethics.
